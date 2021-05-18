@@ -1,4 +1,4 @@
-Simchain
+pSimchain
 ========
 
 Simchain is a blockchain simulator for education and research purpose by Dr.Pei at the sponsor of Hubei University of technology.

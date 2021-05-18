@@ -7,6 +7,9 @@ import struct
 import binascii
 from random import SystemRandom
 from hashlib import sha256,new
+
+from bc.simchain.logger import logger
+from bc.simchain.mnemonics import n
 from .base58 import b58encode_check,b58decode_check
 
 _K = (0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,
@@ -554,13 +557,13 @@ def verify(sig,G,K,message):
 
 #######Try all possibilities
 
-from time import clock
+from time import time
 from math import sqrt,ceil
 def crack_by_brute_force(G,K):
-    start_time = clock()
+    start_time = time()
     for k in range(G.order):
         if k*G == K:
-            end_time = clock()
+            end_time = time()
             print ("Priv key: k = " + str(k))
             print ("Time: " + str(round(end_time - start_time, 3)) + " secs")
             
@@ -569,7 +572,7 @@ def crack_by_brute_force(G,K):
 
 #######use baby step giant step     
 def crack_by_bsgs(G, K):
-    start_time = clock()
+    start_time = time()
     m = int(ceil(sqrt(G.order)))
     table = {}
     for i in range(m):
@@ -581,7 +584,7 @@ def crack_by_bsgs(G, K):
         R = K - jmG.invert()
         if str(R) in table.keys():
             i = table[str(R)]
-            end_time = clock()
+            end_time = time()
             print ("Priv key: k = " + str(() % n))
             print ("Time: " + str(round(end_time - start_time, 3)) + " secs")
             return i + j*m
@@ -589,7 +592,7 @@ def crack_by_bsgs(G, K):
 
 #######use pollard's rho alg
 def crack_by_pollard_rho(G,K,bits):
-    start_time = clock()
+    start_time = time()
     R,n = [], G.order
     for i in range(2**bits):
         a, b = SystemRandom().randrange(0,n), SystemRandom().randrange(0,n)
@@ -610,12 +613,12 @@ def crack_by_pollard_rho(G,K,bits):
             break
     
     if Bh == Bt:
-        end_time = clock()
+        end_time = time()
         k = -1
         print ("failed")
         print (str(end_time - start_time) + " secs")
     else:
-        end_time = clock()
+        end_time = time()
         k = (At - Ah) * inv_mod((Bh - Bt) % n, n) % n
         print ("Priv key: k = " + str((At - Ah) * inv_mod((Bh - Bt) % n, n) % n))
         print ("Time: " + str(round(end_time - start_time, 3)) + " secs")
