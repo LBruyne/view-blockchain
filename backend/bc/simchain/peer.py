@@ -12,8 +12,8 @@ from .merkletree import MerkleTree
 
 class Peer(object):
     
-    def __init__(self,coords = None):
-        self.coords = coords
+    def __init__(self,ipv4 = None):
+        self.ipv4 = ipv4
         self.network = None
         self.txs = []
         self.candidate_block_txs = []
@@ -368,7 +368,7 @@ class Peer(object):
         roll_back(self)
 
     def __repr__(self):
-        return 'peer{0}'.format(self.coords)
+        return 'peer(ip:{0})'.format(self.ipv4)
     
     
 # =============================================================================

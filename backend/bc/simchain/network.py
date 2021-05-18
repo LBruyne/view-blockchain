@@ -35,13 +35,13 @@ class Network(object):
     
     def init_peers(self,number):
         for _ in range(number):
-            coords = generate_random_coords()
-            peer = Peer(coords)
+            ipv4 = generate_random_ipv4()
+            peer = Peer(ipv4)
             create_peer(self,peer)
     
     def add_peer(self):
-        coords = generate_random_coords()
-        peer = Peer(coords)
+        ipv4 = generate_random_ipv4()
+        peer = Peer(ipv4)
         create_peer(self,peer)
         peer.update_blockchain(self.peers[0])
         peer.update_mem_pool(self.peers[0])
@@ -105,10 +105,12 @@ class Network(object):
         
         
     def consensus(self,meth = 'pow'):
+        log_info = []
         if not self._is_consensus_peers_chosen:
             self.choose_random_consensus_peers()
         
         if meth == 'pow':
+            log_info.append('{0} peers are mining'.format(len(self.consensus_peers)))
             logger.info('{0} peers are mining'.format(len(self.consensus_peers)))
             n,nonce,time = consensus_with_fasttest_minner(self.consensus_peers)
             self.time_spent.append(time)
@@ -120,11 +122,18 @@ class Network(object):
                     self.current_winner.pid,
                     time
                     ))
-            
+
+            log_info.append('{0}(pid={1}) is winner,{2} secs used'.format(
+                    self.current_winner,
+                    self.current_winner.pid,
+                    time
+                    ))
+
             block = self.current_winner.package_block(nonce = nonce)
             self.current_winner.recieve_block(block)
             self.current_winner.broadcast_block(block)
-            
+            return log_info
+
     def draw(self):
         pass
     
@@ -172,8 +181,8 @@ def tx_random_value():
     return random.randint(0,100)
 
 
-def generate_random_coords():
-    return (random.randint(0,100),random.randint(0,100))
+def generate_random_ipv4():
+    return str(random.randint(0,255)) + "." + str(random.randint(0,255)) + "." + str(random.randint(0,255)) + "." + str(random.randint(0,255))
 
     
 if __name__ == "__main__":
