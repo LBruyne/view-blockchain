@@ -71,9 +71,37 @@ def get_peer_info_detail():
 #  ]
 @app.route('/network/consensus')
 def consensus():
-    resultInfo = blockChain.net.consensus()
+    resultInfo,block = blockChain.net.consensus()
+    print(block.hash)
+    txs = []
+    for eachTx in block.txs:
+        txId = eachTx.id
+        vinlist = []
+        voutlist = []
+        for eachVin in eachTx.tx_in:
+            print(eachVin)
+            if eachVin.to_spend != None:
+                vinlist.append({
+                    "pointer_tx_id": eachVin.to_spend.tx_id,
+                    "pointer_n": eachVin.to_spend.n,
+                })
+        for eachVout in eachTx.tx_out:
+            if type(eachVout.to_addr) == str:
+                voutlist.append({
+                    "to_addr_peer_address":eachVout.to_addr,
+                    "value":eachVout.value
+                })
+        txIsCoinBase = eachTx.is_coinbase
+        data = {
+            "vinList":vinlist,
+            "voutList":voutlist,
+            "txId":txId,
+            "txIsCoinBase":txIsCoinBase
+        }
+        txs.append(data)
     response = dict()
-    response['data'] = resultInfo
+    response['log_info'] = resultInfo
+    response['blockTxs'] = txs
     response['success'] = True
     response['code'] = 200
     return response
@@ -95,11 +123,135 @@ def create_transaction():
     transaction_originator = peers[transaction_originator_id]
     transaction_receipt = peers[transaction_receipt_id]
     transaction_originator.create_transaction(transaction_receipt,transaction_price)
+    tx = transaction_originator.current_tx
     transaction_originator.broadcast_transaction()
 
+    txId = tx.id
+    vinlist = []
+    voutlist = []
+    for eachVin in tx.tx_in:
+        print(eachVin)
+        if eachVin.to_spend != None:
+            vinlist.append({
+                "pointer_tx_id": eachVin.to_spend.tx_id,
+                "pointer_n": eachVin.to_spend.n,
+            })
+    for eachVout in tx.tx_out:
+        if type(eachVout.to_addr) == str:
+            voutlist.append({
+                "to_addr_peer_address": eachVout.to_addr,
+                "value": eachVout.value
+            })
+    txIsCoinBase = tx.is_coinbase
+    data = {
+        "vinList": vinlist,
+        "voutList": voutlist,
+        "txId": txId,
+        "txIsCoinBase": txIsCoinBase
+    }
     response = dict()
+    response["tx"] = data
     response['success'] = True
     response['code'] = 200
+    return response
+
+@app.route('/network/peer/utxo')
+## 请求示例如下：
+# {
+#  peer_id = 1
+# }
+def get_peer_utxo():
+    peer_id = int(request.args.get("peer_id"))
+
+    peers = blockChain.get_peers()
+    utxos = peers[peer_id].get_utxo()
+    data = []
+    for each in utxos:
+        vout = each.vout
+        pointer = each.pointer
+        each_data = {
+            "vout_addr":vout.to_addr,
+            "vout_value":vout.value,
+            "tx_id":pointer.tx_id,
+            "tx_vout_n":pointer.n
+        }
+        data.append(each_data)
+
+    response = dict()
+    response['data'] = data
+    response['success'] = True
+    response['code'] = 200
+    return response
+
+@app.route('/network/peer/utxo/unconfirm')
+## 请求示例如下：
+# {
+#  peer_id = 1
+# }
+def get_peer_utxo_unconfirmed():
+    peer_id = int(request.args.get("peer_id"))
+
+    peers = blockChain.get_peers()
+    utxos = peers[peer_id].get_unconfirmed_utxo()
+    data = []
+    for each in utxos:
+        vout = each.vout
+        pointer = each.pointer
+        each_data = {
+            "vout_addr":vout.to_addr,
+            "vout_value":vout.value,
+            "tx_id":pointer.tx_id,
+            "tx_vout_n":pointer.n
+        }
+        data.append(each_data)
+
+    response = dict()
+    response['data'] = data
+    response['success'] = True
+    response['code'] = 200
+    return response
+
+@app.route('/network/peer/utxo/confirm')
+## 请求示例如下：
+# {
+#  peer_id = 1
+# }
+def get_peer_utxo_confirmed():
+    peer_id = int(request.args.get("peer_id"))
+
+    peers = blockChain.get_peers()
+    utxos = peers[peer_id].get_confirmed_utxo()
+    data = []
+    for each in utxos:
+        vout = each.vout
+        pointer = each.pointer
+        each_data = {
+            "vout_addr":vout.to_addr,
+            "vout_value":vout.value,
+            "tx_id":pointer.tx_id,
+            "tx_vout_n":pointer.n
+        }
+        data.append(each_data)
+
+    response = dict()
+    response['data'] = data
+    response['success'] = True
+    response['code'] = 200
+    return response
+
+@app.route('/network/peer/add')
+def network_peer_add():
+    peer = blockChain.net.add_peer()
+    info = {
+        "id": peer.pid,
+        "ipv4": peer.ipv4,
+        "balance": peer.get_balance(),
+        "addr": peer.addr
+    }
+    response = dict()
+    response['data'] = info
+    response['success'] = True
+    response['code'] = 201
     return response
 
 

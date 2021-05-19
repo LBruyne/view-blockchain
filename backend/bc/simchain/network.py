@@ -46,6 +46,7 @@ class Network(object):
         peer.update_blockchain(self.peers[0])
         peer.update_mem_pool(self.peers[0])
         peer.update_utxo_set(self.peers[0])
+        return peer
         logger.info('A new peer joined in --> {0}(pid={1})'.format(peer,peer.pid))
         
     def create_genesis_block(self,number,value):
@@ -130,9 +131,10 @@ class Network(object):
                     ))
 
             block = self.current_winner.package_block(nonce = nonce)
+
             self.current_winner.recieve_block(block)
             self.current_winner.broadcast_block(block)
-            return log_info
+            return log_info,block
 
     def draw(self):
         pass
