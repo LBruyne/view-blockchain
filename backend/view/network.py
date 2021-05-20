@@ -19,7 +19,7 @@ def get_network_info():
         "peer_num": len(net.peers),
         "block_height": len(bc),
         "local_time": get_timestamp(),
-        "current_winner": net.current_winner.addr,
+        "current_winner": "" if net.current_winner is None else net.current_winner.addr ,
         "GDP": get_all_balance(peers),
         "num_of_txs": get_all_txs_num(bc)
     }

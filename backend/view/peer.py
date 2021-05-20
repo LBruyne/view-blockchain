@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from backend.model.blockchain import blockchain
 from backend.model.http_result import HttpResult
+from simchain import Peer
 
 app_peer = Blueprint("peer", __name__)
 
@@ -27,7 +28,7 @@ def get_peer_info_list():
 @app_peer.route('/network/peer/detail')
 def get_peer_info_detail():
     peer_id = int(request.args.get("pid"))
-    peer = blockchain.get_peers()[peer_id]
+    peer: Peer = blockchain.get_peers()[peer_id]
     info = {
         "id": peer_id,
         "ipv4": peer.ipv4,
