@@ -1,9 +1,9 @@
 View-BlockChain - API DOC EASY VERSION:
 
-1、获取当前网络所有节点信息  GET:  /network/peer/info/list  
+1、获取当前网络所有节点信息  GET:  /network/peer/list  
 
 ```javascript
-	{
+{
 
 ​    "code": 200,
 
@@ -35,14 +35,14 @@ View-BlockChain - API DOC EASY VERSION:
 
 ​    ],
 
-​    "success": **true**
+​    "success": true
 
 }
 ```
 
 
 
-2、获取某一个节点的详细信息：GET : /network/peer/info/detail?pid=1
+2、获取某一个节点的详细信息：GET : /network/peer/detail?pid=1
 
 ```javascript
 {
