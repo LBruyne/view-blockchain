@@ -1,11 +1,60 @@
+import random
+
 from flask import Blueprint, request
 from backend.model.blockchain import blockchain
 from backend.model.http_result import HttpResult
+from simchain import Peer
 
 app_transaction = Blueprint("transaction", __name__)
 
 
-@app_transaction.route('/network/transaction/create', methods=['POST'])
+@app_transaction.route('/network/transaction/random', methods=["POST", "GET"])
+def random_transaction():
+    peers = blockchain.get_peers()
+    sender:Peer = random.choice(peers[1:])
+    receiver = random.choice(peers[1:])
+    sender.create_transaction(receiver.wallet.addrs[-1],
+                              tx_random_value())
+    tx = sender.current_tx
+    sender.broadcast_transaction()
+
+    vin_list = []
+    vout_list = []
+    for eachVin in tx.tx_in:
+        print(eachVin)
+        if eachVin.to_spend != None:
+            vin_list.append({
+                "to_spend": "" if eachVin.to_spend is None else {
+                    "pointer_tx_id": eachVin.to_spend.tx_id,
+                    "pointer_n": eachVin.to_spend.n,
+                }
+            })
+    for eachVout in tx.tx_out:
+        if type(eachVout.to_addr) == str:
+            vout_list.append({
+                "to_addr": eachVout.to_addr,
+                "value": eachVout.value
+            })
+    data = {
+        "sender": {
+            "addr": sender.addr,
+            "ip": sender.ipv4
+        },
+        "receiver": {
+            "addr": receiver.addr,
+            "ip": receiver.ipv4
+        },
+        "id": tx.id,
+        "is_coinbase": tx.is_coinbase,
+        "v_in": vin_list,
+        "v_out": vout_list,
+        "fee": tx.fee,
+        "lock_time": tx.nlocktime
+    }
+    return HttpResult.success_result(data)
+
+
+@app_transaction.route('/network/transaction/create', methods=['POST', "GET"])
 def create_transaction():
     reqBody = request.get_json()
     transaction_originator_id = reqBody["transaction_originator_id"]
@@ -13,33 +62,47 @@ def create_transaction():
     transaction_price = reqBody["transaction_price"]
 
     peers = blockchain.get_peers()
-    transaction_originator = peers[transaction_originator_id]
-    transaction_receipt = peers[transaction_receipt_id]
-    transaction_originator.create_transaction(transaction_receipt, transaction_price)
-    tx = transaction_originator.current_tx
-    transaction_originator.broadcast_transaction()
+    sender: Peer = peers[transaction_originator_id]
+    receiver: Peer = peers[transaction_receipt_id]
+    sender.create_transaction(receiver.wallet.addrs[-1], transaction_price)
+    tx = sender.current_tx
+    sender.broadcast_transaction()
 
-    txId = tx.id
-    vinlist = []
-    voutlist = []
+    vin_list = []
+    vout_list = []
     for eachVin in tx.tx_in:
         print(eachVin)
         if eachVin.to_spend != None:
-            vinlist.append({
-                "pointer_tx_id": eachVin.to_spend.tx_id,
-                "pointer_n": eachVin.to_spend.n,
+            vin_list.append({
+                "to_spend": "" if eachVin.to_spend is None else {
+                    "pointer_tx_id": eachVin.to_spend.tx_id,
+                    "pointer_n": eachVin.to_spend.n,
+                }
             })
     for eachVout in tx.tx_out:
         if type(eachVout.to_addr) == str:
-            voutlist.append({
-                "to_addr_peer_address": eachVout.to_addr,
+            vout_list.append({
+                "to_addr": eachVout.to_addr,
                 "value": eachVout.value
             })
-    txIsCoinBase = tx.is_coinbase
     data = {
-        "vinList": vinlist,
-        "voutList": voutlist,
-        "txId": txId,
-        "txIsCoinBase": txIsCoinBase
+        "sender": {
+            "addr": sender.addr,
+            "ip": sender.ipv4
+        },
+        "receiver": {
+            "addr": receiver.addr,
+            "ip": receiver.ipv4
+        },
+        "id": tx.id,
+        "is_coinbase": tx.is_coinbase,
+        "v_in": vin_list,
+        "v_out": vout_list,
+        "fee": tx.fee,
+        "lock_time": tx.nlocktime
     }
     return HttpResult.success_result(data)
+
+
+def tx_random_value():
+    return random.randint(0, 100)

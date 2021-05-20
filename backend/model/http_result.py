@@ -8,7 +8,7 @@ class HttpResult():
         response = dict()
         response['data'] = data
         response['success'] = True
-        response['code'] = 1
+        response['code'] = 200
         return jsonify(response)
 
     @classmethod

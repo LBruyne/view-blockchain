@@ -1,5 +1,23 @@
 View-BlockChain - API DOC EASY VERSION:
 
+0、获取当前网络的基本信息 GET: /network/detail
+
+```javascript
+{
+  "code": 200,
+  "data": {
+    "GDP": 120000,
+    "block_height": 1,
+    "current_winner": null,
+    "local_time": "2021-05-20 14:00:41",
+    "num_of_txs": 1,
+    "peer_num": 12
+  },
+  "success": true
+}
+
+```
+
 1、获取当前网络所有节点信息  GET:  /network/peer/list  
 
 ```javascript
@@ -114,28 +132,42 @@ View-BlockChain - API DOC EASY VERSION:
 }
 ```
 
-
-
 ```javascript
 {
-    "code": 200,
-    "success": true,
-    "tx": {
-        "txId": "4ae0b080eb969383c7e579ab5b62f15a4d15909bd7bc8b9d76e6767feb5e4aae",
-        "txIsCoinBase": false,
-        "vinList": [
-            {
-                "pointer_n": 1,
-                "pointer_tx_id": "ebe1d90abd33a35a12bcb0a1e0b2a9e6330cb743272f50a0d8122a9fa2bb2da1"
-            }
-        ],
-        "voutList": [
-            {
-                "to_addr_peer_address": "1EVXfjPJz4uoj29zFwNSkBoFosSbF8c4XD",
-                "value": 9890
-            }
-        ]
-    }
+  "code": 200,
+  "data": {
+    "fee": 10,
+    "id": "031c4789c83e20ec6d1b7f5099040487d58055d0fe753e012b6a7f4d22e7a2e7",
+    "is_coinbase": false,
+    "lock_time": 0,
+    "receiver": {
+      "addr": "1EHAHcZWVYLSCX3sH6XAaDVNPAZ1fzTRT1",
+      "ip": "219.80.215.65"
+    },
+    "sender": {
+      "addr": "146dgr2CMBCoEQw6fvZrpLd4mXyY5TX6ah",
+      "ip": "113.155.42.230"
+    },
+    "v_in": [
+      {
+        "to_spend": {
+          "pointer_n": 8,
+          "pointer_tx_id": "6ad87cf2b8986fc3bf4e2fe0a40c4f70eb5065abce89314b4c69045dc9302cc5"
+        }
+      }
+    ],
+    "v_out": [
+      {
+        "to_addr": "1EHAHcZWVYLSCX3sH6XAaDVNPAZ1fzTRT1",
+        "value": 46
+      },
+      {
+        "to_addr": "146dgr2CMBCoEQw6fvZrpLd4mXyY5TX6ah",
+        "value": 9944
+      }
+    ]
+  },
+  "success": true
 }
 ```
 
@@ -200,8 +232,6 @@ View-BlockChain - API DOC EASY VERSION:
 }
 ```
 
-
-
 ```javascript
 {
     "code": 200,
@@ -229,5 +259,248 @@ View-BlockChain - API DOC EASY VERSION:
         "ipv4": "31.165.196.139"
     },
     "success": true
+}
+```
+
+9、获取目前区块链的数据 GET: /network/blockchain/list
+
+```javascript
+{
+  "code": 200,
+  "data": [
+    {
+      "current_hash": "d1821dece51ef0ef0e7c5c8a04a52105d46495417cd8c0d05e4e2e86dd2e9515",
+      "merkel_root_hash": "6ad87cf2b8986fc3bf4e2fe0a40c4f70eb5065abce89314b4c69045dc9302cc5",
+      "nonce": 0,
+      "previous_hash": null,
+      "timestamp": 841124,
+      "txs": [
+        {
+          "fee": 0,
+          "id": "6ad87cf2b8986fc3bf4e2fe0a40c4f70eb5065abce89314b4c69045dc9302cc5",
+          "is_coinbase": true,
+          "lock_time": 0,
+          "v_in": [
+            {
+              "to_spend": ""
+            }
+          ],
+          "v_out": [
+            {
+              "to_addr": "13m6A6rjG9bSfFmRJSYdfiEGL97gLEhAcf",
+              "value": 10000
+            },
+            {
+              "to_addr": "18h9AsyXFCDJ9Ktr3W5ZuGC9u56K7Q52t2",
+              "value": 10000
+            },
+            {
+              "to_addr": "1J7TnX7AFKSg1ePoHGDYkbcRZWPeruJe9r",
+              "value": 10000
+            },
+            {
+              "to_addr": "12YoV9J6fLw1YyxsYhepiD92Fzwz4CtxDM",
+              "value": 10000
+            },
+            {
+              "to_addr": "1EPv83tnmGS1DKNhNnmsbkvxuU7hPT3cUt",
+              "value": 10000
+            },
+            {
+              "to_addr": "17eki86zhPB4chmdtgyHLNKpsnkoc3jkbn",
+              "value": 10000
+            },
+            {
+              "to_addr": "12PxCyq14XJkdrF62CjDX8o9cbHtQsyx99",
+              "value": 10000
+            },
+            {
+              "to_addr": "1EHAHcZWVYLSCX3sH6XAaDVNPAZ1fzTRT1",
+              "value": 10000
+            },
+            {
+              "to_addr": "146dgr2CMBCoEQw6fvZrpLd4mXyY5TX6ah",
+              "value": 10000
+            },
+            {
+              "to_addr": "14KLZwadCkZE4fWD1jQ8uHMQ77WJ8YNPm9",
+              "value": 10000
+            },
+            {
+              "to_addr": "1KviTvLnVsBwAgPGYxByrtR3KMtc4ZvFwK",
+              "value": 10000
+            },
+            {
+              "to_addr": "1KkKQtnXVfCGfJ1cJamPEzqtsGyuh7Fy34",
+              "value": 10000
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "current_hash": "0000106569ff4fcbedaec796e95c28912d96f9fc2af1fe84b826a05f1a534972",
+      "merkel_root_hash": "962f07c05a421473b6b86a6a76b330061bf51fc53cb48953225e46e35208ad76",
+      "nonce": 117840,
+      "previous_hash": "d1821dece51ef0ef0e7c5c8a04a52105d46495417cd8c0d05e4e2e86dd2e9515",
+      "timestamp": 0,
+      "txs": [
+        {
+          "fee": 0,
+          "id": "9974884f66be2ac66ab036e15d7d5ce26553efc99c32488c1c3b9853730cf7d9",
+          "is_coinbase": true,
+          "lock_time": 0,
+          "v_in": [
+            {
+              "to_spend": ""
+            }
+          ],
+          "v_out": [
+            {
+              "to_addr": "1KkKQtnXVfCGfJ1cJamPEzqtsGyuh7Fy34",
+              "value": 540
+            }
+          ]
+        },
+        {
+          "fee": 10,
+          "id": "4a1631e7c84e04047bfc26f023c1990af532b44b2c10ab60a91b11dabab4f51c",
+          "is_coinbase": false,
+          "lock_time": 0,
+          "v_in": [
+            {
+              "to_spend": {
+                "pointer_n": 5,
+                "pointer_tx_id": "6ad87cf2b8986fc3bf4e2fe0a40c4f70eb5065abce89314b4c69045dc9302cc5"
+              }
+            }
+          ],
+          "v_out": [
+            {
+              "to_addr": "18h9AsyXFCDJ9Ktr3W5ZuGC9u56K7Q52t2",
+              "value": 10
+            },
+            {
+              "to_addr": "17eki86zhPB4chmdtgyHLNKpsnkoc3jkbn",
+              "value": 9980
+            }
+          ]
+        },
+        {
+          "fee": 10,
+          "id": "7b4b0b5729dcd76124e0bf453ea68cbc205d102a5361e6f74165ce488d76ffbf",
+          "is_coinbase": false,
+          "lock_time": 0,
+          "v_in": [
+            {
+              "to_spend": {
+                "pointer_n": 1,
+                "pointer_tx_id": "6ad87cf2b8986fc3bf4e2fe0a40c4f70eb5065abce89314b4c69045dc9302cc5"
+              }
+            }
+          ],
+          "v_out": [
+            {
+              "to_addr": "1J7TnX7AFKSg1ePoHGDYkbcRZWPeruJe9r",
+              "value": 88
+            },
+            {
+              "to_addr": "18h9AsyXFCDJ9Ktr3W5ZuGC9u56K7Q52t2",
+              "value": 9902
+            }
+          ]
+        },
+        {
+          "fee": 10,
+          "id": "802f90332870767ac4a237457db6c79de5623c11a2f9d178926545d858529ace",
+          "is_coinbase": false,
+          "lock_time": 0,
+          "v_in": [
+            {
+              "to_spend": {
+                "pointer_n": 6,
+                "pointer_tx_id": "6ad87cf2b8986fc3bf4e2fe0a40c4f70eb5065abce89314b4c69045dc9302cc5"
+              }
+            }
+          ],
+          "v_out": [
+            {
+              "to_addr": "18h9AsyXFCDJ9Ktr3W5ZuGC9u56K7Q52t2",
+              "value": 24
+            },
+            {
+              "to_addr": "12PxCyq14XJkdrF62CjDX8o9cbHtQsyx99",
+              "value": 9966
+            }
+          ]
+        },
+        {
+          "fee": 10,
+          "id": "031c4789c83e20ec6d1b7f5099040487d58055d0fe753e012b6a7f4d22e7a2e7",
+          "is_coinbase": false,
+          "lock_time": 0,
+          "v_in": [
+            {
+              "to_spend": {
+                "pointer_n": 8,
+                "pointer_tx_id": "6ad87cf2b8986fc3bf4e2fe0a40c4f70eb5065abce89314b4c69045dc9302cc5"
+              }
+            }
+          ],
+          "v_out": [
+            {
+              "to_addr": "1EHAHcZWVYLSCX3sH6XAaDVNPAZ1fzTRT1",
+              "value": 46
+            },
+            {
+              "to_addr": "146dgr2CMBCoEQw6fvZrpLd4mXyY5TX6ah",
+              "value": 9944
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "success": true
+}
+```
+
+10、随机发起一次交易 POST: /network/transaction/random
+```javascript
+{
+  "code": 200,
+  "data": {
+    "fee": 10,
+    "id": "031c4789c83e20ec6d1b7f5099040487d58055d0fe753e012b6a7f4d22e7a2e7",
+    "is_coinbase": false,
+    "lock_time": 0,
+    "receiver": {
+      "addr": "1EHAHcZWVYLSCX3sH6XAaDVNPAZ1fzTRT1",
+      "ip": "219.80.215.65"
+    },
+    "sender": {
+      "addr": "146dgr2CMBCoEQw6fvZrpLd4mXyY5TX6ah",
+      "ip": "113.155.42.230"
+    },
+    "v_in": [
+      {
+        "to_spend": {
+          "pointer_n": 8,
+          "pointer_tx_id": "6ad87cf2b8986fc3bf4e2fe0a40c4f70eb5065abce89314b4c69045dc9302cc5"
+        }
+      }
+    ],
+    "v_out": [
+      {
+        "to_addr": "1EHAHcZWVYLSCX3sH6XAaDVNPAZ1fzTRT1",
+        "value": 46
+      },
+      {
+        "to_addr": "146dgr2CMBCoEQw6fvZrpLd4mXyY5TX6ah",
+        "value": 9944
+      }
+    ]
+  },
+  "success": true
 }
 ```
