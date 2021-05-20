@@ -1,5 +1,6 @@
 from flask import Blueprint, request
 from backend.model.blockchain import blockchain
+from backend.model.http_result import HttpResult
 
 app_transaction = Blueprint("transaction", __name__)
 
@@ -41,8 +42,4 @@ def create_transaction():
         "txId": txId,
         "txIsCoinBase": txIsCoinBase
     }
-    response = dict()
-    response["tx"] = data
-    response['success'] = True
-    response['code'] = 200
-    return response
+    return HttpResult.success_result(data)

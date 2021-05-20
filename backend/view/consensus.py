@@ -1,4 +1,5 @@
 from flask import Blueprint
+from backend.model.http_result import HttpResult
 from backend.model.blockchain import blockchain
 
 app_consensus = Blueprint("consensus", __name__)
@@ -34,9 +35,4 @@ def consensus():
             "txIsCoinBase": txIsCoinBase
         }
         txs.append(data)
-    response = dict()
-    response['log_info'] = resultInfo
-    response['blockTxs'] = txs
-    response['success'] = True
-    response['code'] = 200
-    return response
+    return HttpResult.success_result(txs)

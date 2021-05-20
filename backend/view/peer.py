@@ -1,5 +1,6 @@
 from flask import Blueprint, request
 from backend.model.blockchain import blockchain
+from backend.model.http_result import HttpResult
 
 app_peer = Blueprint("peer", __name__)
 
@@ -20,11 +21,7 @@ def get_peer_info_list():
         peers_info.append(info)
         count = count + 1
 
-    response = dict()
-    response['data'] = peers_info
-    response['success'] = True
-    response['code'] = 200
-    return response
+    return HttpResult.success_result(peers_info)
 
 
 @app_peer.route('/network/peer/detail')
@@ -37,12 +34,7 @@ def get_peer_info_detail():
         "balance": peer.get_balance(),
         "addr": peer.addr
     }
-
-    response = dict()
-    response['data'] = info
-    response['success'] = True
-    response['code'] = 200
-    return response
+    return HttpResult.success_result(info)
 
 
 @app_peer.route('/network/peer/add')
@@ -54,11 +46,8 @@ def network_peer_add():
         "balance": peer.get_balance(),
         "addr": peer.addr
     }
-    response = dict()
-    response['data'] = info
-    response['success'] = True
-    response['code'] = 201
-    return response
+    return HttpResult.success_result(info)
+
 
 @app_peer.route('/network/peer/utxo')
 def get_peer_utxo():
@@ -78,11 +67,7 @@ def get_peer_utxo():
         }
         data.append(each_data)
 
-    response = dict()
-    response['data'] = data
-    response['success'] = True
-    response['code'] = 200
-    return response
+    return HttpResult.success_result(data)
 
 
 @app_peer.route('/network/peer/utxo/unconfirm')
@@ -103,11 +88,7 @@ def get_peer_utxo_unconfirmed():
         }
         data.append(each_data)
 
-    response = dict()
-    response['data'] = data
-    response['success'] = True
-    response['code'] = 200
-    return response
+    return HttpResult.success_result(data)
 
 
 @app_peer.route('/network/peer/utxo/confirm')
@@ -128,8 +109,4 @@ def get_peer_utxo_confirmed():
         }
         data.append(each_data)
 
-    response = dict()
-    response['data'] = data
-    response['success'] = True
-    response['code'] = 200
-    return response
+    return HttpResult.success_result(data)
