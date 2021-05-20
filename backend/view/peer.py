@@ -3,7 +3,7 @@ from typing import List
 from flask import Blueprint, request
 from backend.model.blockchain import blockchain
 from backend.model.http_result import HttpResult
-from simchain import Peer, Tx, Vout, Vin
+from backend.bc.simchain import Peer, Tx, Vout, Vin
 
 app_peer = Blueprint("peer", __name__)
 

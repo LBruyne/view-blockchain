@@ -3,7 +3,7 @@ import random
 from flask import Blueprint, request
 from backend.model.blockchain import blockchain
 from backend.model.http_result import HttpResult
-from simchain import Peer
+from backend.bc.simchain import Peer
 
 app_transaction = Blueprint("transaction", __name__)
 
