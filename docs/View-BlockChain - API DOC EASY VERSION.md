@@ -504,3 +504,50 @@ View-BlockChain - API DOC EASY VERSION:
   "success": true
 }
 ```
+
+11、获取节点的隐私信息 GET：/network/peer/more
+
+```javascript
+请求示例如下：
+{
+   "pid":1,
+}
+```
+
+```javascript
+
+  "code": 200,
+  "data":
+  {
+      "id":1,
+      "mem_pool":
+      [
+          {
+              "fee": 10,
+              "id": "88cc6234c7114c20be6fcf9d7a479f8beaea4b9b79f0db799a34c08093ec551d",
+              "is_coinbase": false,
+              "lock_time": 0,
+              "v_in": [
+                  {
+                      "pub_key": "b'\\xcb\\xc8j\\x99\\xa1\\x16\\xf4<\\xfd\\x1a\\xeb\\xdbQ#\\xf0&\\xdd\\xfb#\\xaf\\xe1\\x93va\\x82^\\xe5\"\\nJ\\x1b\\xaf\\xe6M*\\xc5jR\\r\\xab\\xb5\\xebx\\xd1PJ\\x84\\x9f\\xe5\\xfc\\x98\\x87\\xd1\\x1d^\\x88f\\xbc\\x14\\xee\\x88\\x9d\\xbc\\xb8'",
+                      "signature": "b'gSC\\x8c\\x90\\xe5\\x87\\xa9\\x01{\\xc4e\\xe5dEz\\x87\\x86\\x9fj\\xfc}\\\\\\xdd\\xd7\\xaaA\\xd2j0\\x053g\\xd6\\xa6\\xc9\\x08\\xcb\\x04\\xb7\\x1d\\x8e(\\x87XF6#\\t\\xe61\\xb8+\\xd1\\x85\\x1f\\xad}\\xdb\\xb5\\x03w\\xef\\xc0'",
+                      "to_spend": {
+                          "pointer_n": 1,
+                          "pointer_tx_id": "a2fb2bab1bb8a3f9c0a853bb6b73a6c4950c9317f566c023b96c1f7ae1fc135f"
+                      }
+                  }
+              ],
+              "v_out": [
+                  {
+                      "to_addr": "144Advr5TKzMEv4gu5AELwGarEWi9TPUgC",
+                      "value": 22
+                  },
+                  {
+                      "to_addr": "1GoU2AkJpqTaHggfZxFgSsWF498nSvYHar",
+                      "value": 9877
+                  }
+              ]
+          },
+      ],
+  "success": true
+```

@@ -1,7 +1,9 @@
+from typing import List
+
 from flask import Blueprint, request
 from backend.model.blockchain import blockchain
 from backend.model.http_result import HttpResult
-from simchain import Peer
+from simchain import Peer, Tx, Vout, Vin
 
 app_peer = Blueprint("peer", __name__)
 
@@ -34,6 +36,19 @@ def get_peer_info_detail():
         "ipv4": peer.ipv4,
         "balance": peer.get_balance(),
         "addr": peer.addr
+    }
+    return HttpResult.success_result(info)
+
+
+@app_peer.route('/network/peer/more')
+def get_peer_more_info():
+    peer_id = int(request.args.get("pid"))
+    peer: Peer = blockchain.get_peers()[peer_id]
+    info = {
+        "id": peer_id,
+        "secret_key": str(peer.sk).replace('\\', ''),
+        "public_key": str(peer.pk).replace('\\', ''),
+        "mem_pool": format_mem_pool(peer.mem_pool)
     }
     return HttpResult.success_result(info)
 
@@ -111,3 +126,45 @@ def get_peer_utxo_confirmed():
         data.append(each_data)
 
     return HttpResult.success_result(data)
+
+
+def format_mem_pool(mem_pool: dict):
+    result = []
+    for key in mem_pool.keys():
+        tx: Tx = mem_pool[key]
+        result.append({
+            "id": tx.id,
+            "is_coinbase": tx.is_coinbase,
+            "v_in": get_v_in(tx.tx_in),
+            "v_out": get_v_out(tx.tx_out),
+            "fee": tx.fee,
+            "lock_time": tx.nlocktime
+        })
+    return result
+
+
+def get_v_in(tx_in: List[Vin]):
+    result = []
+    for vin in tx_in:
+        data = {
+            "pub_key": "" if vin.pubkey is None else str(vin.pubkey),
+            "to_spend": "" if vin.to_spend is None else {
+                "pointer_tx_id": vin.to_spend.tx_id,
+                "pointer_n": vin.to_spend.n,
+            },
+            "signature": "" if vin.signature is None else str(vin.signature)
+        }
+        result.append(data)
+    return result
+
+
+def get_v_out(tx_out: List[Vout]):
+    result = []
+    for vout in tx_out:
+        data = {
+            "to_addr": vout.to_addr,
+            "value": vout.value
+        }
+        result.append(data)
+    return result
+
