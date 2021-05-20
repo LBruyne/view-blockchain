@@ -12,7 +12,6 @@ app_network = Blueprint("network", __name__)
 @app_network.route('/network/detail', methods=['GET','OPTIONS'])
 def get_network_info():
     if request.method == 'OPTIONS':
-        print(request, request.method)
         return HttpResult.success_result("")
     net: Network = blockchain.get_network()
     bc: List[Block] = blockchain.get_blockchain()

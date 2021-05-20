@@ -8,7 +8,7 @@ from backend.bc.simchain import Peer
 app_transaction = Blueprint("transaction", __name__)
 
 
-@app_transaction.route('/network/transaction/random', methods=["POST", "GET"])
+@app_transaction.route('/network/transaction/random', methods=["GET"])
 def random_transaction():
     peers = blockchain.get_peers()
     sender:Peer = random.choice(peers[1:])
@@ -56,6 +56,8 @@ def random_transaction():
 
 @app_transaction.route('/network/transaction/create', methods=['POST', "GET"])
 def create_transaction():
+    if request.method == 'OPTIONS':
+        return HttpResult.success_result("")
     reqBody = request.get_json()
     transaction_originator_id = reqBody["transaction_originator_id"]
     transaction_receipt_id = reqBody["transaction_receipt_id"]
