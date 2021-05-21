@@ -131,10 +131,10 @@ class Network(object):
                     ))
 
             block = self.current_winner.package_block(nonce = nonce)
-
             self.current_winner.recieve_block(block)
-            self.current_winner.broadcast_block(block)
-            return log_info,block
+            num, info = self.current_winner.broadcast_block(block)
+            log_info.append(info)
+            return log_info, block, num
 
     def draw(self):
         pass

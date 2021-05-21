@@ -38,11 +38,13 @@ def random_transaction():
     data = {
         "sender": {
             "addr": sender.addr,
-            "ip": sender.ipv4
+            "ip": sender.ipv4,
+            "pid":sender.pid
         },
         "receiver": {
             "addr": receiver.addr,
-            "ip": receiver.ipv4
+            "ip": receiver.ipv4,
+            "pid": receiver.pid
         },
         "id": tx.id,
         "is_coinbase": tx.is_coinbase,
@@ -59,9 +61,9 @@ def create_transaction():
     if request.method == 'OPTIONS':
         return HttpResult.success_result("")
     reqBody = request.get_json()
-    transaction_originator_id = reqBody["transaction_originator_id"]
-    transaction_receipt_id = reqBody["transaction_receipt_id"]
-    transaction_price = reqBody["transaction_price"]
+    transaction_originator_id = int(reqBody["transaction_originator_id"])
+    transaction_receipt_id = int(reqBody["transaction_receipt_id"])
+    transaction_price = float(reqBody["transaction_price"])
 
     peers = blockchain.get_peers()
     sender: Peer = peers[transaction_originator_id]
