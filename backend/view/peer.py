@@ -43,7 +43,7 @@ def get_peer_info_detail():
 @app_peer.route('/network/peer/more', methods=['GET','OPTIONS'])
 def get_peer_more_info():
     if request.method == 'OPTIONS':
-        return HttpResult.success_result("")
+        return HttpResult.success_result('')
     peer_id = int(request.args.get("pid"))
     peer: Peer = blockchain.get_peers()[peer_id]
     info = {

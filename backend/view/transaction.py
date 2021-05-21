@@ -59,9 +59,9 @@ def create_transaction():
     if request.method == 'OPTIONS':
         return HttpResult.success_result("")
     reqBody = request.get_json()
-    transaction_originator_id = reqBody["transaction_originator_id"]
-    transaction_receipt_id = reqBody["transaction_receipt_id"]
-    transaction_price = reqBody["transaction_price"]
+    transaction_originator_id = int(reqBody["transaction_originator_id"])
+    transaction_receipt_id = int(reqBody["transaction_receipt_id"])
+    transaction_price = float(reqBody["transaction_price"])
 
     peers = blockchain.get_peers()
     sender: Peer = peers[transaction_originator_id]
