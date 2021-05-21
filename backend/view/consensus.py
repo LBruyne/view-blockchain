@@ -4,10 +4,9 @@ from backend.model.blockchain import blockchain
 
 app_consensus = Blueprint("consensus", __name__)
 
-
 @app_consensus.route('/network/consensus')
 def consensus():
-    resultInfo, block = blockchain.net.consensus()
+    resultInfo,block,num = blockchain.net.consensus()
     print(block.hash)
     txs = []
     for eachTx in block.txs:
@@ -35,4 +34,11 @@ def consensus():
             "txIsCoinBase": txIsCoinBase
         }
         txs.append(data)
-    return HttpResult.success_result(txs)
+    res = dict()
+    if num==0:
+        res["result"] = False
+    else:
+        res["result"] = True
+    res["txs"] = txs
+    res["logInfo"] = resultInfo
+    return HttpResult.success_result(res)

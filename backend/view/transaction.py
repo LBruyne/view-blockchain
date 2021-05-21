@@ -38,11 +38,13 @@ def random_transaction():
     data = {
         "sender": {
             "addr": sender.addr,
-            "ip": sender.ipv4
+            "ip": sender.ipv4,
+            "pid":sender.pid
         },
         "receiver": {
             "addr": receiver.addr,
-            "ip": receiver.ipv4
+            "ip": receiver.ipv4,
+            "pid": receiver.pid
         },
         "id": tx.id,
         "is_coinbase": tx.is_coinbase,
