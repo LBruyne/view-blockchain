@@ -1,16 +1,18 @@
 import time
 from typing import List
 
-from flask import Blueprint
+from flask import Blueprint, request
 from backend.model.http_result import HttpResult
 from backend.model.blockchain import blockchain
-from simchain import Block, Peer, Network
+from backend.bc.simchain import Block, Peer, Network
 
 app_network = Blueprint("network", __name__)
 
 
-@app_network.route('/network/detail')
+@app_network.route('/network/detail', methods=['GET','OPTIONS'])
 def get_network_info():
+    if request.method == 'OPTIONS':
+        return HttpResult.success_result("")
     net: Network = blockchain.get_network()
     bc: List[Block] = blockchain.get_blockchain()
     peers: List[Peer] = blockchain.get_peers()

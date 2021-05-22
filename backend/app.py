@@ -8,7 +8,7 @@ from view.chain import app_chain
 from view.network import app_network
 
 app = Flask(__name__)
-CORS(app)
+
 app.register_blueprint(app_default)
 app.register_blueprint(app_consensus)
 app.register_blueprint(app_transaction)
@@ -16,6 +16,8 @@ app.register_blueprint(app_peer)
 app.register_blueprint(app_chain)
 app.register_blueprint(app_network)
 
+CORS(app)
+
 if __name__ == '__main__':
     app.config['DEBUG'] = True
-    app.run(host='127.0.0.1', port=5000)
+    app.run(host='0.0.0.0', port=5000)

@@ -1,0 +1,136 @@
+.peer-wrapper {
+  overflow: scroll;
+  padding: 20px 0;
+  scroll-behavior: smooth;
+}
+.peer-node-wrapper {
+  width: max-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.peer-node {
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.05) inset,
+    12px 12px 36px rgba(0, 0, 0, 0.1);
+  background: white;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  cursor: pointer;
+}
+.peer-node.highlight {
+  background: rgba(0,0,0,0.1);
+}
+
+.tx-row {
+  cursor: pointer;
+}
+
+.bit-header {
+  padding: 20px;
+  font-size: 26px;
+  line-height: 26px;
+  text-align: left;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.bit-aside {
+  padding: 20px;
+  overflow: visible;
+}
+
+.aside-btn-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.aside-btn {
+  margin: 10px 0;
+}
+
+.info-card {
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.05) inset,
+    12px 12px 36px rgba(0, 0, 0, 0.1);
+  background: white;
+  margin: 10px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.bit-footer {
+  padding: 10px;
+  overflow: scroll;
+  scroll-behavior: smooth;
+}
+.block-collapse {
+  display: flex;
+  justify-content: space-around;
+}
+.block-card {
+  width: max-content;
+  min-width: 480px;
+  padding: 20px;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.05) inset,
+    12px 12px 36px rgba(0, 0, 0, 0.1);
+  background: white;
+  margin: 40px 20px;
+  border-radius: 10px;
+}
+.block-card-wrapper {
+  display: flex;
+}
+
+.console-wrapper {
+  height: 140px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: scroll;
+  scroll-behavior: smooth;
+  box-shadow: -10px -10px 20px rgba(0, 0, 0, 0.05) inset,
+    -12px -12px 36px rgba(0, 0, 0, 0.1);
+}
+
+.dialog-card {
+  position: fixed;
+  padding: 20px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  z-index: 999;
+}
+
+.foldable-div {
+  overflow: hidden;
+  transition: 500ms ease;
+}
+
+.margin-right {
+  margin-right: 10px;
+}
+.margin-left {
+  margin-left: 10px;
+}
+
+.utxo-card {
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  background: white;
+  padding: 10px;
+  margin: 10px;
+}
+.subtitle {
+  font-size: 18px;
+  font-weight: 700;
+}

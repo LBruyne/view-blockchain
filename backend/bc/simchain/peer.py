@@ -191,6 +191,7 @@ class Peer(object):
         peers.remove(self)
         number = broadcast_winner_block(peers, block)
         logger.info('{0} received by {1} peers'.format(block, number))
+        return number, '{0} received by {1} peers'.format(block, number)
 
     def locate_block(self, block_hash):
         return locate_block_by_hash(self, block_hash)

@@ -3,12 +3,12 @@ import random
 from flask import Blueprint, request
 from backend.model.blockchain import blockchain
 from backend.model.http_result import HttpResult
-from simchain import Peer
+from backend.bc.simchain import Peer
 
 app_transaction = Blueprint("transaction", __name__)
 
 
-@app_transaction.route('/network/transaction/random', methods=["POST", "GET"])
+@app_transaction.route('/network/transaction/random', methods=["GET"])
 def random_transaction():
     peers = blockchain.get_peers()
     sender:Peer = random.choice(peers[1:])
@@ -38,11 +38,13 @@ def random_transaction():
     data = {
         "sender": {
             "addr": sender.addr,
-            "ip": sender.ipv4
+            "ip": sender.ipv4,
+            "pid":sender.pid
         },
         "receiver": {
             "addr": receiver.addr,
-            "ip": receiver.ipv4
+            "ip": receiver.ipv4,
+            "pid": receiver.pid
         },
         "id": tx.id,
         "is_coinbase": tx.is_coinbase,
@@ -56,10 +58,12 @@ def random_transaction():
 
 @app_transaction.route('/network/transaction/create', methods=['POST', "GET"])
 def create_transaction():
+    if request.method == 'OPTIONS':
+        return HttpResult.success_result("")
     reqBody = request.get_json()
-    transaction_originator_id = reqBody["transaction_originator_id"]
-    transaction_receipt_id = reqBody["transaction_receipt_id"]
-    transaction_price = reqBody["transaction_price"]
+    transaction_originator_id = int(reqBody["transaction_originator_id"])
+    transaction_receipt_id = int(reqBody["transaction_receipt_id"])
+    transaction_price = float(reqBody["transaction_price"])
 
     peers = blockchain.get_peers()
     sender: Peer = peers[transaction_originator_id]

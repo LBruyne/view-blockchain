@@ -3,7 +3,7 @@ from typing import List
 from flask import Blueprint, request
 from backend.model.blockchain import blockchain
 from backend.model.http_result import HttpResult
-from simchain import Peer, Tx, Vout, Vin
+from backend.bc.simchain import Peer, Tx, Vout, Vin
 
 app_peer = Blueprint("peer", __name__)
 
@@ -40,8 +40,10 @@ def get_peer_info_detail():
     return HttpResult.success_result(info)
 
 
-@app_peer.route('/network/peer/more')
+@app_peer.route('/network/peer/more', methods=['GET','OPTIONS'])
 def get_peer_more_info():
+    if request.method == 'OPTIONS':
+        return HttpResult.success_result('')
     peer_id = int(request.args.get("pid"))
     peer: Peer = blockchain.get_peers()[peer_id]
     info = {
@@ -86,8 +88,10 @@ def get_peer_utxo():
     return HttpResult.success_result(data)
 
 
-@app_peer.route('/network/peer/utxo/unconfirm')
+@app_peer.route('/network/peer/utxo/unconfirm', methods=['GET','OPTIONS'])
 def get_peer_utxo_unconfirmed():
+    if request.method == 'OPTIONS':
+        return HttpResult.success_result('')
     peer_id = int(request.args.get("peer_id"))
 
     peers = blockchain.get_peers()
