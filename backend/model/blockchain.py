@@ -10,7 +10,7 @@ class Blockchain:
         self.net: Network = None
         self.peers: List[Peer] = []
         self.blockchain: List[Block] = []
-        self.NUM_OF_PEERS: int = 12  # 设置12个初始节点
+        self.NUM_OF_PEERS: int = 4  # 设置12个初始节点
         self.DEFAULT_BALANCE: float = 10000  # 以分为单位
 
     def run(self):

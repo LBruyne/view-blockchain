@@ -27,10 +27,6 @@ def consensus_with_fasttest_minner(peers):
     return l.index(min(l)),min(l),time.time()-start
 
 
-
-
-
-
 def get_block_reward(height,fees = 0):
 ##    COIN = int(1e8)
     reward_interval = 210000
