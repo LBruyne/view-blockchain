@@ -1,2 +1,2 @@
 # view-blockchain
-提供自己用Python写的简易区块链在Web应用中展示的接口
+
